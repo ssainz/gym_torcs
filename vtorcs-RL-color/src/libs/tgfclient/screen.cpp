@@ -129,8 +129,8 @@ gfScreenInit(void)
 
 			if (nsize > 0) {
 				// Check if 64x64, 320x200, 640x480, 800x600 are available, construct a mode wish list.
-				int check_resx[] = {64, 320, 640, 800};
-				int check_resy[] = {64, 240, 480, 600};
+				int check_resx[] = {64,128, 160, 320, 640, 800};
+				int check_resy[] = {64,128, 160, 240, 480, 600};
 				bool mode_in_list[] = {false, false, false};
 				int add_modes = sizeof(check_resx)/sizeof(check_resx[0]);
 

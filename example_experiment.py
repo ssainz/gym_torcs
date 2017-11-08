@@ -34,6 +34,7 @@ for i in range(episode_count):
         total_reward += reward
 
         step += 1
+
         if done:
             break
 

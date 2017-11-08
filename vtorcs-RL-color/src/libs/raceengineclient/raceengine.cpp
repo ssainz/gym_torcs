@@ -40,6 +40,8 @@
 
 #include <math.h>
 
+//#include <iostream>
+
 static char	buf[1024];
 static double	msgDisp;
 static double	bigMsgDisp;
@@ -49,7 +51,7 @@ int	RESTART = 0;
 
 // GIUSE - debug - size of the image to be sent through udp
 // Make it zero to deactivate
-int GIUSEIMGSIZE = 64;
+int GIUSEIMGSIZE = 128;
 
 static void ReRaceRules(tCarElt *car);
 
@@ -164,21 +166,28 @@ visionUpdate()
 
 
     // GIUSE - TODO: that was only a quick hack, bring them out of here!!
-/*    RGBscales[0]=0.299;
+    RGBscales[0]=0.299;
     RGBscales[1]=0.587;
     RGBscales[2]=0.114;
 
-    double avg;
+    double avg = 0.0;
     for (int pixel=0; pixel < GIUSEIMGSIZE*GIUSEIMGSIZE; pixel++)
     {
-	    for (int channel=0, avg=0; channel<3; channel++)
+	    avg = 0.0;
+	    for (int channel=0; channel<3; channel++)
 	    {
-		    avg += RGBscales[channel] * tmpRGBimg[3*pixel+channel];
+		    avg += RGBscales[channel] * ( (int) tmpRGBimg[3*pixel+channel]);
 	    }
-
+ 	    //printf("DOUBLE %f|", avg);
+	    //printf("D2 %f|", RGBscales[0]);
+	    //printf("CHAR:%d|",(unsigned char) avg);
 	    ReInfo->vision->img[pixel] = (unsigned char) avg;
     }
-*/
+
+    //for(int i=0; i < ReInfo->vision->imgsize; i++){
+    //   std::cout << (int) ReInfo->vision->img[i] << " ";
+    //}
+
     // JAN: a hack of a hack: RGB -> HSB (using just the S value)
     //double avg,r,g,b,min,max,s,delta;
 		/*
@@ -199,11 +208,14 @@ visionUpdate()
     }
 		*/
 
+//Commenting RBG below:
+/*
 		double avg,r,g,b,min,max,s,delta;
 		for (int pixel=0; pixel < 3*GIUSEIMGSIZE*GIUSEIMGSIZE; pixel++)
 		{
 				ReInfo->vision->img[pixel] = (unsigned char) (tmpRGBimg[pixel]);
 		}
+*/
 
     // must(?) restore scales to default values
 //    glPixelTransferf(GL_RED_SCALE, 1);
@@ -775,7 +787,11 @@ ReStart(void)
       if( GIUSEIMGSIZE > 0 )
         ReInfo->vision->sw = ReInfo->vision->sh = ReInfo->vision->vw = ReInfo->vision->vh = GIUSEIMGSIZE;
 
-      ReInfo->vision->imgsize = 3*ReInfo->vision->vw * ReInfo->vision->vh; // for RGB
+      //ssainz: below for RGB
+      //ReInfo->vision->imgsize = 3*ReInfo->vision->vw * ReInfo->vision->vh; // for RGB
+	
+      ReInfo->vision->imgsize = 1*ReInfo->vision->vw * ReInfo->vision->vh;
+
       ReInfo->vision->img = (unsigned char*)malloc(ReInfo->vision->imgsize * sizeof(unsigned char));
       if (ReInfo->vision->img == NULL)  exit(-1); // malloc fail
 

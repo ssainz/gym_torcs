@@ -67,7 +67,7 @@ typedef struct sockaddr_in tSockAddrIn;
 #define UDP_DEFAULT_TIMEOUT 100000
 //#define UDP_DEFAULT_TIMEOUT 100000
 // GIUSE - size has to be increased to accomodate larger images
-static int UDP_MSGLEN = 64*64+1000;
+static int UDP_MSGLEN = 128*128+1000;
 
 //#define UDP_MSGLEN 650000
 //#define __UDP_SERVER_VERBOSE__
@@ -521,7 +521,7 @@ drive(int index, tCarElt* car, tSituation *s)
 //    printf("size: %d\n",car->vision->imgsize);
 
     if( getVision() ){
-//      std::cout << car->vision->imgsize << std::endl;
+      std::cout << car->vision->imgsize << std::endl;
       stateString += SimpleParser::stringify("img", car->vision->img, car->vision->imgsize);
     }
 

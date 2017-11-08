@@ -239,6 +239,22 @@ class TorcsEnv:
             temp = []
         return np.array(rgb, dtype=np.uint8)
 
+    def obs_vision_to_image_greyscale(self, obs_image_vec):
+        image_vec =  obs_image_vec
+        temp = []
+        # convert size 64x64x3 = 12288 to 64x64=4096 2-D list
+        # with rgb values grouped together.
+        # Format similar to the observation in openai gym
+	# 160 x 160 = 25600
+        # limit = 25600
+	# 64 x 64 = 4096
+        # limit = 4096
+        # 128 x 128 = 16384
+        limit = 16384
+        for i in range(limit):
+            temp.append(image_vec[i])
+        return np.array(temp, dtype=np.uint8)
+
     def make_observaton(self, raw_obs):
         if self.vision is False:
             names = ['focus',
@@ -267,7 +283,8 @@ class TorcsEnv:
             Observation = col.namedtuple('Observaion', names)
 
             # Get RGB from observation
-            image_rgb = self.obs_vision_to_image_rgb(raw_obs[names[8]])
+            #image_rgb = self.obs_vision_to_image_rgb(raw_obs[names[8]])
+            image_rgb = self.obs_vision_to_image_greyscale(raw_obs[names[8]])
 
             return Observation(focus=np.array(raw_obs['focus'], dtype=np.float32)/200.,
                                speedX=np.array(raw_obs['speedX'], dtype=np.float32)/self.default_speed,
